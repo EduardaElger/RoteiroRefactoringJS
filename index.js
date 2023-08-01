@@ -2,15 +2,12 @@ const { readFileSync } = require('fs');
 
 function gerarFaturaStr(fatura, pecas) {
 
-     // função query
-    function getPeca(apresentacao) {
-      return pecas[apresentacao.id];
-    }
-    ...
-    
-    for (let apre of fatura.apresentacoes) {
-      const peca = getPeca(apre);
-}          
+    // função extraída
+    function formatarMoeda(valor) {
+      return new Intl.NumberFormat("pt-BR",
+        { style: "currency", currency: "BRL",
+          minimumFractionDigits: 2 }).format(valor/100);
+    }         
 
 const faturas = JSON.parse(readFileSync('./faturas.json'));
 const pecas = JSON.parse(readFileSync('./pecas.json'));
