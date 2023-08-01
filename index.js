@@ -1,20 +1,10 @@
-const { readFileSync } = require('fs');
+const { readFileSync } = require('fs')
 
-function gerarFaturaStr(fatura, pecas) {
+var Repositorio = require('./repositorio.js')
+var ServicoCalculoFatura = require('./servico.js')
+var gerarFaturaStr = require('./apresentacao.js')
+const faturas = JSON.parse(readFileSync('./faturas.json'))
+const calc = new ServicoCalculoFatura(new Repositorio())
+const faturaStr = gerarFaturaStr(faturas, calc)
 
-  // funções aninhadas
-
-  // corpo principal (após funções aninhadas)
-  let faturaStr = `Fatura ${fatura.cliente}\n`;
-  for (let apre of fatura.apresentacoes) {
-      faturaStr += `  ${getPeca(apre).nome}: ${formatarMoeda(calcularTotalApresentacao(apre))} (${apre.audiencia} assentos)\n`;
-  }
-  faturaStr += `Valor total: ${formatarMoeda(calcularTotalFatura())}\n`;
-  faturaStr += `Créditos acumulados: ${calcularTotalCreditos()} \n`;
-  return faturaStr;
-}       
-
-const faturas = JSON.parse(readFileSync('./faturas.json'));
-const pecas = JSON.parse(readFileSync('./pecas.json'));
-const faturaStr = gerarFaturaStr(faturas, pecas);
-console.log(faturaStr);
+console.log(faturaStr)
